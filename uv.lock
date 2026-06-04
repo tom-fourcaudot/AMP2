@@ -15,12 +15,14 @@ name = "amp2"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "numpy" },
     { name = "pandas" },
     { name = "ucimlrepo" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "numpy", specifier = ">=2.4.6" },
     { name = "pandas", specifier = ">=3.0.3" },
     { name = "ucimlrepo", specifier = ">=0.0.7" },
 ]
