@@ -11,11 +11,12 @@ y = iris.data.targets
 data = x.join(y, how='inner')
 
 # test knn
-try_K = [1, 2, 3, 5, 7, 10, 15]
-iterations = 20
+def test_knn():
+    try_k = [1, 2, 3, 5, 7, 10, 15]
+    iterations = 20
 
-accuracies = {}
-for k in try_K:
-    accuracies[k] = x_times_knn(data, k=k, n=iterations)
+    accuracies = {}
+    for k in try_k:
+        accuracies[k] = x_times_knn(data, k=k, n=iterations)
 
-print(accuracies)
+    print(accuracies)
