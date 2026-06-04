@@ -1,20 +1,14 @@
-from typing import Any
-
 import numpy as np
 import pandas as pd
-from numpy import complexfloating, dtype, floating, ndarray
 
 
-def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> ndarray[float, float, float, float]:
+def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[list[float], float, tuple[bool, bool]]:
     """
     Calculate the projection vector between two dataframes
     :param df1: first dataframe
     :param df2: second dataframe
     :return: projection vector
     """
-    class1 = df1['class'].unique()[0]
-    class2 = df2['class'].unique()[0]
-
     df1 = df1.drop(columns=['class'])
     df2 = df2.drop(columns=['class'])
 
@@ -31,4 +25,12 @@ def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> ndarray[float
     mean_difference  = mean1 - mean2
 
     w = np.linalg.inv(sw) @ mean_difference
-    return w
+
+    mean1_projected = mean1 @ w
+    mean2_projected = mean2 @ w
+    threshold = (mean1_projected + mean2_projected) / 2
+
+    if mean1_projected < threshold:
+        return w, threshold, (True, False)
+    else:
+        return w, threshold, (False, True)
