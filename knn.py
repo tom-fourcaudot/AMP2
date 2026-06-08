@@ -3,7 +3,7 @@ from collections import Counter
 
 from numpy.ma.core import mean
 
-from utils.data_split import split_data
+from utils.data_split import split_data_proportional
 
 
 def squared_euclidian_distance(a: pd.Series, b: pd.Series) -> float:
@@ -48,7 +48,7 @@ def x_times_knn(data: pd.DataFrame, k: int, n: int = 50) -> float:
     """
     accuracies = []
     for _ in range(n):
-        training, testing = split_data(data)
+        training, testing = split_data_proportional(data)
 
         result = []
         for index, row in testing.iterrows():
