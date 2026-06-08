@@ -9,9 +9,9 @@ from utils.data_split import by_class_separation, split_data_proportional
 iris = fetch_ucirepo(id=53)
 
 # data (as pandas dataframes)
-x = iris.data.features
-y = iris.data.targets
-data = x.join(y, how='inner')
+x:pd.DataFrame = iris.data.features
+y:pd.DataFrame = iris.data.targets
+data:pd.DataFrame = x.join(y, how='inner')
 
 
 # test knn
@@ -42,14 +42,14 @@ print(classifiers)
 fisher_results = []
 for index, row in testing.iterrows():
     c = row['class']
-    data = row.drop('class').to_numpy()
+    row_features = row.drop('class').to_numpy()
 
-    predictions = {}
+    predictions: dict = {}
     for model_class, classifier in classifiers.items():
         projection_vector, threshold = classifier
-        projection = data @ projection_vector
+        projection = row_features @ projection_vector
         predictions[model_class] = (projection - threshold)
-    p = max(predictions, key=predictions.get)
+    p = max(predictions, key=lambda k: predictions[k])
     fisher_results.append((c, p, predictions[p]))
 print(fisher_results)
 good_predictions = sum(1 for ground_true, prediction, _  in fisher_results if ground_true == prediction)
