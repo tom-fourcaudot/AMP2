@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 
-def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[list[float], float, tuple[bool, bool]]:
+def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[list[float], float]:
     """
     Calculate the projection vector between two dataframes
     :param df1: first dataframe
@@ -30,7 +30,7 @@ def get_projection_vector(df1: pd.DataFrame, df2: pd.DataFrame) -> tuple[list[fl
     mean2_projected = mean2 @ w
     threshold = (mean1_projected + mean2_projected) / 2
 
-    if mean1_projected < threshold:
-        return w, threshold, (True, False)
-    else:
-        return w, threshold, (False, True)
+    if mean1_projected < mean2_projected:
+        w = -w
+        threshold = (mean1 @ w + mean2 @ w) / 2
+    return w, threshold
