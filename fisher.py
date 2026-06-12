@@ -1,3 +1,5 @@
+from statistics import mean
+
 import numpy as np
 import pandas as pd
 
@@ -63,6 +65,11 @@ def fisher(data: pd.DataFrame):
         fisher_results.append((c, p, predictions[p]))
     return fisher_results
 
-
-    # good_predictions = sum(1 for ground_true, prediction, _ in fisher_results if ground_true == prediction)
-    # accuracy = good_predictions / len(fisher_results)
+def x_times_fisher(data: pd.DataFrame, iterations: int = 20):
+    accuracies = []
+    for _ in range(iterations):
+        result = fisher(data)
+        good_predictions = sum(1 for ground_true, prediction, _ in result if ground_true == prediction)
+        accuracy = good_predictions / len(result)
+        accuracies.append(accuracy)
+    return accuracies

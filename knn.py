@@ -38,7 +38,7 @@ def knn(df_train: pd.DataFrame, data_test: pd.Series, k: int = 3) -> tuple[str, 
     return prediction[0][0], prediction[0][1] / k
 
 
-def x_times_knn(data: pd.DataFrame, k: int, n: int = 50) -> float:
+def x_times_knn(data: pd.DataFrame, k: int, n: int = 50) -> list[float]:
     """
     Run the knn on all test data many times to test the accuracy of the model
     :param data: the row dataset
@@ -58,4 +58,4 @@ def x_times_knn(data: pd.DataFrame, k: int, n: int = 50) -> float:
         corrects = sum(1 if d[2] else 0 for d in result)
         accuracy = corrects / len(training)
         accuracies.append(accuracy)
-    return mean(accuracies)
+    return accuracies
